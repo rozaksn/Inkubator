@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "481904576339",
+    "firebase_url": "https://inkubator-11a6d-default-rtdb.firebaseio.com",
+    "project_id": "inkubator-11a6d",
+    "storage_bucket": "inkubator-11a6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481904576339:android:49a46f2210f39e1dc603a6",
+        "android_client_info": {
+          "package_name": "com.example.inkubator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAUClDIfd4Rc1Nps9z0V_53_BXjLNQ-KQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
