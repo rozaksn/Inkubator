@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <TextView
         android:id="@+id/tvLabelSuhu"
@@ -27,11 +27,11 @@
         android:layout_marginTop="10dp"
         android:textAlignment="center"
         android:textSize="25sp"
+        android:text="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLabelSuhu"
-        tools:text="0" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLabelSuhu" />
 
     <TextView
         android:id="@+id/tvLabelKelembaban"

@@ -21,4 +21,6 @@
     <string name="kelembaban">kelembaban</string>
     <string name="error_fetcing">Error Fetching Data</string>
     <string name="load_post_onCancelled">Load Post onCancelled</string>
+    <string name="notification_granted">Izin notifikasi diberikan</string>
+    <string name="notification_ungranted">Izin notifikasi tidak diberikan</string>
 </resources>
