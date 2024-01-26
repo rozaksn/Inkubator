@@ -2,19 +2,21 @@ package com.example.inkubator.main
 
 import android.Manifest
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.inkubator.R
+import com.example.inkubator.about.AboutActivity
 import com.example.inkubator.databinding.ActivityMainBinding
+import com.example.inkubator.notification.NotificationService
 import com.example.inkubator.notification.WaterLevelNotification
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -27,9 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var waterLevelNotification: WaterLevelNotification
     //private lateinit var database:DatabaseReference
-    private lateinit var databaseInstance : FirebaseDatabase
+    private lateinit var database : FirebaseDatabase
     //private val database = databaseInstance.reference//getReference("REPTIL")
-    val database = Firebase.database
+    //val database = Firebase.database
     //private lateinit var sensorDatabase : FirebaseDatabase
     var buttonActive =false
 
@@ -45,19 +47,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setContentView(binding.root)
 
-        databaseInstance = FirebaseDatabase.getInstance()
+        database = FirebaseDatabase.getInstance()
 
         // Inisisalisasi waterLevelNotification
         waterLevelNotification = WaterLevelNotification(this)
 
+        startService(Intent(this,NotificationService::class.java))
+
         checkNotificationPermission()
 
-        //firebaseConnection()
+        firebaseConnection()
         dht()
-       waterLevel()
+        waterLevel()
         maleGecko()
         femaleGecko()
         maleBallPython()
@@ -93,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun maleGecko(){
-        val buttonRef = databaseInstance.reference.child("REPTIL/mGecko")
+        val buttonRef = database.reference.child("REPTIL/mGecko")
         binding.btMaleGecko.setOnClickListener {
             if (!buttonActive) {
                 buttonRef.setValue("1")
@@ -137,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun femaleGecko(){
-        val buttonRef = databaseInstance.reference.child("REPTIL/fGecko")
+        val buttonRef = database.reference.child("REPTIL/fGecko")
         binding.btFemaleGecko.setOnClickListener {
             if (!buttonActiveFemaleGecko) {
                 buttonRef.setValue("1")
@@ -181,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun maleBallPython(){
-        val buttonRef = databaseInstance.reference.child("REPTIL/mPython")
+        val buttonRef = database.reference.child("REPTIL/mPython")
         binding.btMaleBallPython.setOnClickListener {
             if (!buttonActiveMaleBallPython) {
                 buttonRef.setValue("1")
@@ -225,7 +228,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun femaleBallPython(){
-        val buttonRef = databaseInstance.reference.child("REPTIL/fPython")
+        val buttonRef = database.reference.child("REPTIL/fPython")
         binding.btFemaleBallPython.setOnClickListener {
             if (!buttonActiveFemaleBallPython) {
                 buttonRef.setValue("1")
@@ -270,7 +273,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun maleBeardedDragon(){
-        val buttonRef = databaseInstance.reference.child("REPTIL/mDragon")
+        val buttonRef = database.reference.child("REPTIL/mDragon")
         binding.btMaleBeardedDragon.setOnClickListener {
             if (!buttonActiveMaleBeardedDragon) {
                 buttonRef.setValue("1")
@@ -313,7 +316,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun femaleBeardedDragon(){
-        val buttonRef = databaseInstance.reference.child("REPTIL/fDragon")
+        val buttonRef = database.reference.child("REPTIL/fDragon")
         binding.btFemaleBeardedDragon.setOnClickListener {
             if (!buttonActiveFemaleBeardedDragon) {
                 buttonRef.setValue("1")
@@ -359,11 +362,11 @@ class MainActivity : AppCompatActivity() {
         //val dhtRef = FirebaseDatabase.getInstance().reference//sensorDatabase.getReference("DHT")
         //val database = Firebase.database
 
-        val myRef = database.getReference("TEST/message")
+        //val myRef = database.getReference("TEST/message")
 
         //myRef.setValue("halo")
 
-       val ref = databaseInstance.getReference("TEST/message")
+       val ref = database.getReference("TEST/message")
 
        ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -396,8 +399,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun waterLevel(){
-        val ref = databaseInstance.getReference("INKUBATOR/water_level")
-        val waterLevelRef = this.database.getReference("INKUBATOR/water_level")
+        val ref = database.getReference("TEST/message")
         ref.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 //Baca data dari database
@@ -407,14 +409,14 @@ class MainActivity : AppCompatActivity() {
 
                 //Menampilkan data pada textview
                 binding.tvTinggiAir.text = level
-                 if (level != null){
-                    waterLevelNotification.sendNotification(level)
-                }
+                // if (level != null){
+                //    waterLevelNotification.sendNotification(level)
+                //}
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w("Fetch Data", R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
             }
 
         })
@@ -437,6 +439,18 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, R.string.notification_ungranted, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.about_action ->{
+                val intent = Intent(this@MainActivity,AboutActivity::class.java)
+                startActivity(intent)
+                finish()
+                true
+            }
+            else->{return super.onOptionsItemSelected(item)}
         }
     }
 

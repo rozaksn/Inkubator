@@ -14,13 +14,14 @@
     <string name="female_BP">fPython</string>
     <string name="male_BD">mDragon</string>
     <string name="female_BD">fDragon</string>
-    <string name="dht">DHT</string>
-    <string name="level">WATER_LEVEL</string>
-    <string name="ketinggian_air">water_level</string>
     <string name="suhu">suhu</string>
     <string name="kelembaban">kelembaban</string>
     <string name="error_fetcing">Error Fetching Data</string>
     <string name="load_post_onCancelled">Load Post onCancelled</string>
     <string name="notification_granted">Izin notifikasi diberikan</string>
     <string name="notification_ungranted">Izin notifikasi tidak diberikan</string>
+    <string name="about">About</string>
+    <string name="name">AHMAD ROZAK SETIA NUGRAHA</string>
+    <string name="prodi">JARINGAN TELEKOMUNIKASI DIGITAL</string>
+    <string name="nim">2041160152</string>
 </resources>
