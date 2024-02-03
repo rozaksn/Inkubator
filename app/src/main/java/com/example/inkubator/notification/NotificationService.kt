@@ -1,41 +1,45 @@
 package com.example.inkubator.notification
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
-import com.example.inkubator.main.MainActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 class NotificationService:Service() {
     private lateinit var database : FirebaseDatabase
-    private lateinit var waterLevelNotification: WaterLevelNotification
+    private lateinit var notificationSet: NotificationSet
 
     override fun onCreate() {
         super.onCreate()
+
+        waterLevelNotif()
+        detectionNotif()
+    }
+
+    override fun onBind(p0: Intent?): IBinder? {
+        return null
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_STICKY
+    }
+
+    private fun waterLevelNotif(){
         database = FirebaseDatabase.getInstance()
-        waterLevelNotification = WaterLevelNotification(this)
+        notificationSet = NotificationSet(this)
         // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
-        val reference = database.getReference("TEST/message")
+        val reference = database.getReference("TEST")
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val level = snapshot.value.toString()
+                val level = snapshot.child("message").value.toString()
                 if (level != null){
-                    waterLevelNotification.sendNotification(level)
+                    notificationSet.sendWaterLevelNotification(level)
                 }
             }
 
@@ -46,11 +50,25 @@ class NotificationService:Service() {
         })
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-        return null
-    }
+    private fun detectionNotif(){
+        database = FirebaseDatabase.getInstance()
+        notificationSet = NotificationSet(this)
+        // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
+        val reference = database.getReference("detection")
+        reference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val detection = snapshot.child("object_name").value.toString()
+                val confidence = snapshot.child("confidence").value.toString().toFloat()
+                if (detection != null && confidence != null){
+                    notificationSet.sendDetectionNotification(detection,confidence)
+                }
+            }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_STICKY
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(ContentValues.TAG, R.string.load_post_onCancelled.toString(),error.toException())
+            }
+
+        })
+
     }
 }

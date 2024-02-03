@@ -12,12 +12,12 @@ import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
 import com.example.inkubator.main.MainActivity
 
-class WaterLevelNotification(context:Context) {
+class NotificationSet(context:Context) {
     private val CHANNEL_ID = "channel_id"
     private val context = context
     val ringtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-    fun sendNotification(level:String){
+    fun sendWaterLevelNotification(level:String){
         if (level <= "2"){
             val intent = Intent(context,MainActivity::class.java)
             val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
@@ -34,6 +34,36 @@ class WaterLevelNotification(context:Context) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 val notificationChannel = NotificationChannel(CHANNEL_ID,"notify_water_level",NotificationManager.IMPORTANCE_DEFAULT)
+                notificationChannel.enableVibration(true)
+                notificationChannel.vibrationPattern = longArrayOf(1000,1000,1000)
+
+                notification.setChannelId(CHANNEL_ID)
+                manager.createNotificationChannel(notificationChannel)
+            }
+            notification.setAutoCancel(true)
+            val notificationBuilder = notification.build()
+            notificationBuilder.flags = Notification.FLAG_AUTO_CANCEL or Notification.FLAG_ONGOING_EVENT
+            manager.notify(1, notificationBuilder)
+        }
+    }
+
+    fun sendDetectionNotification(detection:String,confidence:Float){
+        if (detection == "toothbrush" && confidence >= 0.5){
+            val intent = Intent(context,MainActivity::class.java)
+            val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
+            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setVibrate(longArrayOf(1000,1000,1000))
+                .setSound(ringtone)
+                .setAutoCancel(true)
+                .setContentText("Objek:$detection")
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                val notificationChannel = NotificationChannel(CHANNEL_ID,"detection_notify",NotificationManager.IMPORTANCE_DEFAULT)
                 notificationChannel.enableVibration(true)
                 notificationChannel.vibrationPattern = longArrayOf(1000,1000,1000)
 
