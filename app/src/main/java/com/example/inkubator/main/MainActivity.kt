@@ -8,6 +8,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -16,24 +17,26 @@ import com.example.inkubator.R
 import com.example.inkubator.about.AboutActivity
 import com.example.inkubator.databinding.ActivityMainBinding
 import com.example.inkubator.notification.NotificationService
-import com.example.inkubator.notification.WaterLevelNotification
+import com.example.inkubator.notification.NotificationSet
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
-    private val binding by lazy (LazyThreadSafetyMode.NONE){
+    private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var waterLevelNotification: WaterLevelNotification
+    private lateinit var waterLevelNotification: NotificationSet
+
     //private lateinit var database:DatabaseReference
-    private lateinit var database : FirebaseDatabase
+    private lateinit var database: FirebaseDatabase
+
     //private val database = databaseInstance.reference//getReference("REPTIL")
     //val database = Firebase.database
     //private lateinit var sensorDatabase : FirebaseDatabase
-    var buttonActive =false
+    var buttonActive = false
 
     var buttonActiveMaleGecko: Boolean = false
     var buttonActiveFemaleGecko: Boolean = false
@@ -42,7 +45,8 @@ class MainActivity : AppCompatActivity() {
     var buttonActiveMaleBeardedDragon: Boolean = false
     var buttonActiveFemaleBeardedDragon: Boolean = false
 
-    var suhu =0f
+
+    var suhu = 0f
     var kelembaban = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +56,9 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
 
         // Inisisalisasi waterLevelNotification
-        waterLevelNotification = WaterLevelNotification(this)
+        waterLevelNotification = NotificationSet(this)
 
-        startService(Intent(this,NotificationService::class.java))
+        startService(Intent(this, NotificationService::class.java))
 
         checkNotificationPermission()
 
@@ -68,12 +72,16 @@ class MainActivity : AppCompatActivity() {
         maleBeardedDragon()
         femaleBeardedDragon()
 
+
+
     }
 
-    private fun checkNotificationPermission(){
+    private fun checkNotificationPermission() {
         if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS)
-            == PackageManager.PERMISSION_GRANTED) {
+                this, Manifest.permission.POST_NOTIFICATIONS
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             // Permission diijinkan maka notifikasi dapat diterima
         } else {
             // Permission ditolak maka akan mengajukan permintaan
@@ -81,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun firebaseConnection(){
+    private fun firebaseConnection() {
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = com.google.firebase.ktx.Firebase.analytics
 
@@ -91,25 +99,25 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Firebase connected", Toast.LENGTH_SHORT).show()
 
             // You can also log an event to Firebase Analytics to confirm the connection
-            firebaseAnalytics.logEvent("firebaseConnected",null)
+            firebaseAnalytics.logEvent("firebaseConnected", null)
         }
     }
 
-    private fun maleGecko(){
+    private fun maleGecko() {
         val buttonRef = database.reference.child("REPTIL/mGecko")
         binding.btMaleGecko.setOnClickListener {
             if (!buttonActive) {
                 buttonRef.setValue("1")
                 buttonActive = true
-            }else{
+            } else {
                 buttonRef.setValue("0")
                 buttonActive = false
             }
         }
-        buttonRef.addValueEventListener(object :ValueEventListener{
+        buttonRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val value = snapshot.value as? String ?: "0"
-                if (value == "1"){
+                if (value == "1") {
                     binding.btMaleGecko.setBackgroundColor(Color.GREEN)
                     buttonActive = true
 
@@ -118,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
-                }else{
+                } else {
                     binding.btMaleGecko.setBackgroundColor(Color.RED)
                     buttonActive = false
 
@@ -132,8 +140,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Toast.makeText(
+                    this@MainActivity,
+                    R.string.error_fetcing.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.w(TAG, "loadPost:onCancelled", error.toException())
             }
 
         })
@@ -177,7 +189,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -221,7 +233,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -266,7 +278,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -310,7 +322,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, "loadPost:onCancelled",error.toException())
             }
         })
     }
@@ -353,105 +365,123 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, "loadPost:onCancelled",error.toException())
             }
 
         })
     }
-   private fun dht(){
-        //val dhtRef = FirebaseDatabase.getInstance().reference//sensorDatabase.getReference("DHT")
-        //val database = Firebase.database
 
-        //val myRef = database.getReference("TEST/message")
 
-        //myRef.setValue("halo")
+        private fun dht() {
+            //val dhtRef = FirebaseDatabase.getInstance().reference//sensorDatabase.getReference("DHT")
+            //val database = Firebase.database
 
-       val ref = database.getReference("TEST/message")
+            //val myRef = database.getReference("TEST/message")
 
-       ref.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                //if (snapshot.exists()){
+            //myRef.setValue("halo")
+
+            val ref = database.getReference("TEST/message")
+
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    //if (snapshot.exists()){
                     val suhu = snapshot.value.toString()
                     binding.tvSuhu.text = suhu
                     binding.tvKelembaban.text = "${kelembaban}"
-                //}
+                    //}
 
-                //Baca nilai dari database
-                //val suhu=""
-                //suhu = snapshot.child("TEST/message").value.toString()
-                  //suhu = snapshot.child("TEST/message").value!!.toString()
-                //val kelembaban =
-               // kelembaban= snapshot.child("INKUBATOR/fGecko").value!!.toString().toFloat() //as? Float
-                //val value = snapshot.getValue<String>()
-                //Log.d(TAG, "Value is: " + value)
+                    //Baca nilai dari database
+                    //val suhu=""
+                    //suhu = snapshot.child("TEST/message").value.toString()
+                    //suhu = snapshot.child("TEST/message").value!!.toString()
+                    //val kelembaban =
+                    // kelembaban= snapshot.child("INKUBATOR/fGecko").value!!.toString().toFloat() //as? Float
+                    //val value = snapshot.getValue<String>()
+                    //Log.d(TAG, "Value is: " + value)
 
-                //Menampilkan data pada textview
-                //binding.tvSuhu.text = suhu
-                //kelembaban.toString()
-            }
+                    //Menampilkan data pada textview
+                    //binding.tvSuhu.text = suhu
+                    //kelembaban.toString()
+                }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.error_fetcing.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                }
 
-        })
-    }
+            })
+        }
 
-    private fun waterLevel(){
-        val ref = database.getReference("TEST/message")
-        ref.addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                //Baca data dari database
-                //val level = snapshot.child("INKUBATOR/water_level").value
-               //val waterLevel = snapshot.getValue(String::class.java)
-                val level = snapshot.value.toString()
+        private fun waterLevel() {
+            val ref = database.getReference("TEST/message")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    //Baca data dari database
+                    //val level = snapshot.child("INKUBATOR/water_level").value
+                    //val waterLevel = snapshot.getValue(String::class.java)
+                    val level = snapshot.value.toString()
 
-                //Menampilkan data pada textview
-                binding.tvTinggiAir.text = level
-                // if (level != null){
-                //    waterLevelNotification.sendNotification(level)
-                //}
-            }
+                    //Menampilkan data pada textview
+                    binding.tvTinggiAir.text = level
+                    // if (level != null){
+                    //    waterLevelNotification.sendNotification(level)
+                    //}
+                }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.error_fetcing.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.w(TAG, R.string.load_post_onCancelled.toString(), error.toException())
+                }
 
-        })
-    }
+            })
+        }
 
-    //Meminta ijin notifikasi
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-           0
-        )
-    }
+        //Meminta ijin notifikasi
+        private fun requestPermission() {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+        }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 0){
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, R.string.notification_granted, Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, R.string.notification_ungranted, Toast.LENGTH_SHORT).show()
+        override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            if (requestCode == 0) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, R.string.notification_granted, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, R.string.notification_ungranted, Toast.LENGTH_SHORT).show()
+                }
             }
         }
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.about_action ->{
-                val intent = Intent(this@MainActivity,AboutActivity::class.java)
-                startActivity(intent)
-                finish()
-                true
-            }
-            else->{return super.onOptionsItemSelected(item)}
+        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+            menuInflater.inflate(R.menu.main_menu, menu)
+            return super.onCreateOptionsMenu(menu)
         }
-    }
 
-}
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.about_action -> {
+                    val intent = Intent(this@MainActivity, AboutActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                else -> {
+                    return super.onOptionsItemSelected(item)
+                }
+            }
+        }
+
+    }
