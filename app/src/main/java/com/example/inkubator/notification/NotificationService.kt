@@ -1,10 +1,18 @@
 package com.example.inkubator.notification
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -14,6 +22,8 @@ import com.google.firebase.database.ValueEventListener
 class NotificationService:Service() {
     private lateinit var database : FirebaseDatabase
     private lateinit var notificationSet: NotificationSet
+    private var personDetected = false
+
 
     override fun onCreate() {
         super.onCreate()
@@ -59,7 +69,8 @@ class NotificationService:Service() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val detection = snapshot.child("object_name").value.toString()
                 val confidence = snapshot.child("confidence").value.toString().toFloat()
-                if (detection != null && confidence != null){
+
+            if (detection != null && confidence != null){
                     notificationSet.sendDetectionNotification(detection,confidence)
                 }
             }

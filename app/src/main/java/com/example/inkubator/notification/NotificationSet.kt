@@ -9,6 +9,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.inkubator.R
 import com.example.inkubator.main.MainActivity
 
@@ -33,7 +34,8 @@ class NotificationSet(context:Context) {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                val notificationChannel = NotificationChannel(CHANNEL_ID,"notify_water_level",NotificationManager.IMPORTANCE_DEFAULT)
+                val notificationChannel = NotificationChannel(CHANNEL_ID,"notify_water_level",
+                    NotificationManager.IMPORTANCE_DEFAULT)
                 notificationChannel.enableVibration(true)
                 notificationChannel.vibrationPattern = longArrayOf(1000,1000,1000)
 
@@ -42,13 +44,13 @@ class NotificationSet(context:Context) {
             }
             notification.setAutoCancel(true)
             val notificationBuilder = notification.build()
-            notificationBuilder.flags = Notification.FLAG_AUTO_CANCEL or Notification.FLAG_ONGOING_EVENT
+            notificationBuilder.flags = Notification.FLAG_AUTO_CANCEL or Notification.FLAG_ONLY_ALERT_ONCE
             manager.notify(1, notificationBuilder)
         }
     }
 
     fun sendDetectionNotification(detection:String,confidence:Float){
-        if (detection == "toothbrush" && confidence >= 0.5){
+        if (detection == "person" && confidence > 0.5){
             val intent = Intent(context,MainActivity::class.java)
             val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
@@ -60,11 +62,12 @@ class NotificationSet(context:Context) {
                 .setAutoCancel(true)
                 .setContentText("Objek:$detection")
                 .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                val notificationChannel = NotificationChannel(CHANNEL_ID,"detection_notify",NotificationManager.IMPORTANCE_DEFAULT)
-                notificationChannel.enableVibration(true)
+                val notificationChannel = NotificationChannel(CHANNEL_ID,"detection_notify",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+                notificationChannel.enableVibration(false)
                 notificationChannel.vibrationPattern = longArrayOf(1000,1000,1000)
 
                 notification.setChannelId(CHANNEL_ID)
@@ -72,8 +75,11 @@ class NotificationSet(context:Context) {
             }
             notification.setAutoCancel(true)
             val notificationBuilder = notification.build()
-            notificationBuilder.flags = Notification.FLAG_AUTO_CANCEL or Notification.FLAG_ONGOING_EVENT
+            notificationBuilder.flags = Notification.FLAG_AUTO_CANCEL or Notification.FLAG_ONLY_ALERT_ONCE
             manager.notify(1, notificationBuilder)
         }
     }
+
+
+
 }
