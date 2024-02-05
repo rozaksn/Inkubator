@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var waterLevelNotification: NotificationSet
+    private lateinit var notifikationSet: NotificationSet
     private lateinit var database: FirebaseDatabase
 
     var buttonActive = false
@@ -44,11 +44,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        // Inisialisasi database
         database = FirebaseDatabase.getInstance()
 
-        // Inisisalisasi waterLevelNotification
-        waterLevelNotification = NotificationSet(this)
+        // Inisisalisasi notificationSet
+        notifikationSet = NotificationSet(this)
 
         startService(Intent(this, NotificationService::class.java))
 
@@ -87,16 +87,16 @@ class MainActivity : AppCompatActivity() {
 
         // Check if Firebase is initialized
         if (FirebaseApp.getInstance() != null) {
-            // Display a Toast message indicating that Firebase is connected
+            // Menampilkan pesan pada toast ketika firebase berhasil terhubung
             Toast.makeText(this, "Firebase connected", Toast.LENGTH_SHORT).show()
 
-            // You can also log an event to Firebase Analytics to confirm the connection
+            // Menampilkan pesan pada logcat
             firebaseAnalytics.logEvent("firebaseConnected", null)
         }
     }
 
     private fun maleGecko() {
-        val buttonRef = database.reference.child("REPTIL/mGecko")
+        val buttonRef = database.getReference("REPTIL/mGecko")
         binding.btMaleGecko.setOnClickListener {
             if (!buttonActive) {
                 buttonRef.setValue("1")
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
                 } else {
-                    binding.btMaleGecko.setBackgroundColor(Color.RED)
+                    binding.btMaleGecko.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActive = false
 
                     binding.btFemaleGecko.isEnabled = true
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun femaleGecko(){
-        val buttonRef = database.reference.child("REPTIL/fGecko")
+        val buttonRef = database.getReference("REPTIL/fGecko")
         binding.btFemaleGecko.setOnClickListener {
             if (!buttonActiveFemaleGecko) {
                 buttonRef.setValue("1")
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
                 }else{
-                    binding.btFemaleGecko.setBackgroundColor(Color.RED)
+                    binding.btFemaleGecko.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveFemaleGecko = false
 
                     binding.btMaleGecko.isEnabled = true
@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun maleBallPython(){
-        val buttonRef = database.reference.child("REPTIL/mPython")
+        val buttonRef = database.getReference("REPTIL/mPython")
         binding.btMaleBallPython.setOnClickListener {
             if (!buttonActiveMaleBallPython) {
                 buttonRef.setValue("1")
@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
                 }else{
-                    binding.btMaleBallPython.setBackgroundColor(Color.RED)
+                    binding.btMaleBallPython.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveMaleBallPython = false
 
                     binding.btMaleGecko.isEnabled = true
@@ -232,7 +232,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun femaleBallPython(){
-        val buttonRef = database.reference.child("REPTIL/fPython")
+        val buttonRef = database.getReference("REPTIL/fPython")
         binding.btFemaleBallPython.setOnClickListener {
             if (!buttonActiveFemaleBallPython) {
                 buttonRef.setValue("1")
@@ -256,7 +256,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBeardedDragon.isEnabled = false
                 }
                 else{
-                    binding.btFemaleBallPython.setBackgroundColor(Color.RED)
+                    binding.btFemaleBallPython.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveFemaleBallPython = false
 
                     binding.btMaleGecko.isEnabled = true
@@ -277,7 +277,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun maleBeardedDragon(){
-        val buttonRef = database.reference.child("REPTIL/mDragon")
+        val buttonRef = database.getReference("REPTIL/mDragon")
         binding.btMaleBeardedDragon.setOnClickListener {
             if (!buttonActiveMaleBeardedDragon) {
                 buttonRef.setValue("1")
@@ -300,7 +300,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
                 }else{
-                    binding.btMaleBeardedDragon.setBackgroundColor(Color.RED)
+                    binding.btMaleBeardedDragon.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveMaleBeardedDragon = false
 
                     binding.btMaleGecko.isEnabled = true
@@ -320,7 +320,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun femaleBeardedDragon(){
-        val buttonRef = database.reference.child("REPTIL/fDragon")
+        val buttonRef = database.getReference("REPTIL/fDragon")
         binding.btFemaleBeardedDragon.setOnClickListener {
             if (!buttonActiveFemaleBeardedDragon) {
                 buttonRef.setValue("1")
@@ -332,6 +332,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                //mengambil nilai dari snapshot Firebase dan mengubahnya menjadi string, dengan nilai default "0" jika terjadi kesalahan
                 val value = snapshot.value as? String ?: "0"
                 if (value == "1"){
                     binding.btFemaleBeardedDragon.setBackgroundColor(Color.GREEN)
@@ -343,7 +344,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
                 }else{
-                   binding.btFemaleBeardedDragon.setBackgroundColor(Color.RED)
+                   binding.btFemaleBeardedDragon.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveFemaleBeardedDragon = false
 
                     binding.btMaleGecko.isEnabled = true
@@ -413,8 +414,9 @@ class MainActivity : AppCompatActivity() {
 
         //Meminta ijin notifikasi
         private fun requestPermission() {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0
+                )
         }
 
         override fun onRequestPermissionsResult(
