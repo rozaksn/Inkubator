@@ -29,16 +29,10 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var waterLevelNotification: NotificationSet
-
-    //private lateinit var database:DatabaseReference
     private lateinit var database: FirebaseDatabase
 
-    //private val database = databaseInstance.reference//getReference("REPTIL")
-    //val database = Firebase.database
-    //private lateinit var sensorDatabase : FirebaseDatabase
     var buttonActive = false
 
-    var buttonActiveMaleGecko: Boolean = false
     var buttonActiveFemaleGecko: Boolean = false
     var buttonActiveMaleBallPython: Boolean = false
     var buttonActiveFemaleBallPython: Boolean = false
@@ -46,8 +40,6 @@ class MainActivity : AppCompatActivity() {
     var buttonActiveFemaleBeardedDragon: Boolean = false
 
 
-    var suhu = 0f
-    var kelembaban = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -373,35 +365,15 @@ class MainActivity : AppCompatActivity() {
 
 
         private fun dht() {
-            //val dhtRef = FirebaseDatabase.getInstance().reference//sensorDatabase.getReference("DHT")
-            //val database = Firebase.database
-
-            //val myRef = database.getReference("TEST/message")
-
-            //myRef.setValue("halo")
-
-            val ref = database.getReference("TEST/message")
+            val ref = database.getReference("TEST")
 
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    //if (snapshot.exists()){
-                    val suhu = snapshot.value.toString()
-                    binding.tvSuhu.text = suhu
-                    binding.tvKelembaban.text = "${kelembaban}"
-                    //}
 
-                    //Baca nilai dari database
-                    //val suhu=""
-                    //suhu = snapshot.child("TEST/message").value.toString()
-                    //suhu = snapshot.child("TEST/message").value!!.toString()
-                    //val kelembaban =
-                    // kelembaban= snapshot.child("INKUBATOR/fGecko").value!!.toString().toFloat() //as? Float
-                    //val value = snapshot.getValue<String>()
-                    //Log.d(TAG, "Value is: " + value)
-
-                    //Menampilkan data pada textview
-                    //binding.tvSuhu.text = suhu
-                    //kelembaban.toString()
+                    val suhu = snapshot.child("suhu").value.toString().toFloat()
+                    val kelembaban = snapshot.child("kelembaban").value.toString().toFloat()
+                    binding.tvSuhu.text = "$suhu \u00b0C"
+                    binding.tvKelembaban.text = "$kelembaban %"
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -421,15 +393,10 @@ class MainActivity : AppCompatActivity() {
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //Baca data dari database
-                    //val level = snapshot.child("INKUBATOR/water_level").value
-                    //val waterLevel = snapshot.getValue(String::class.java)
                     val level = snapshot.value.toString()
 
                     //Menampilkan data pada textview
-                    binding.tvTinggiAir.text = level
-                    // if (level != null){
-                    //    waterLevelNotification.sendNotification(level)
-                    //}
+                    binding.tvTinggiAir.text = "$level cm"
                 }
 
                 override fun onCancelled(error: DatabaseError) {

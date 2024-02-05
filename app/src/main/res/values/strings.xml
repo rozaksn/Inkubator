@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Inkubator</string>
-    <string name="temperature">Suhu (C)</string>
-    <string name="humidity">Kelembaban (%)</string>
-    <string name="water_level">Ketinggian Air (cm)</string>
+    <string name="temperature">Suhu</string>
+    <string name="humidity">Kelembaban</string>
+    <string name="water_level">Ketinggian Air</string>
     <string name="gecko">Leopard Gecko</string>
     <string name="ball_python">Ball Python</string>
     <string name="bearded_dragon">Bearded Dragon</string>
