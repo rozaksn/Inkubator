@@ -1,18 +1,10 @@
 package com.example.inkubator.notification
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,14 +14,12 @@ import com.google.firebase.database.ValueEventListener
 class NotificationService:Service() {
     private lateinit var database : FirebaseDatabase
     private lateinit var notificationSet: NotificationSet
-    private var personDetected = false
-
 
     override fun onCreate() {
         super.onCreate()
 
-        waterLevelNotif()
-        detectionNotif()
+        waterLevelNotify()
+        detectionNotify()
     }
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -40,9 +30,10 @@ class NotificationService:Service() {
         return START_STICKY
     }
 
-    private fun waterLevelNotif(){
+    private fun waterLevelNotify(){
         database = FirebaseDatabase.getInstance()
         notificationSet = NotificationSet(this)
+
         // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
         val reference = database.getReference("TEST")
         reference.addValueEventListener(object : ValueEventListener{
@@ -60,10 +51,11 @@ class NotificationService:Service() {
         })
     }
 
-    private fun detectionNotif(){
+    private fun detectionNotify(){
         database = FirebaseDatabase.getInstance()
         notificationSet = NotificationSet(this)
-        // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
+
+        // Menambahkan ValueEventListener untuk mengetahui perubahan pada node detection
         val reference = database.getReference("detection")
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
