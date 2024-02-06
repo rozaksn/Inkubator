@@ -1,6 +1,7 @@
 package com.example.inkubator.main
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -369,10 +370,12 @@ class MainActivity : AppCompatActivity() {
             val ref = database.getReference("TEST")
 
             ref.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
 
+                @SuppressLint("SetTextI18n")
+                override fun onDataChange(snapshot: DataSnapshot) {
                     val suhu = snapshot.child("suhu").value.toString().toFloat()
                     val kelembaban = snapshot.child("kelembaban").value.toString().toFloat()
+
                     binding.tvSuhu.text = "$suhu \u00b0C"
                     binding.tvKelembaban.text = "$kelembaban %"
                 }
