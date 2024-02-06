@@ -11,10 +11,9 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
 import com.example.inkubator.main.MainActivity
-import com.example.inkubator.utils.CHANNEL_ID_1
-import com.example.inkubator.utils.CHANNEL_ID_2
 
 class NotificationSet(context:Context) {
+    private var CHANNEL_ID = "channel_id"
     private val ctx = context
     val ringtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     fun sendWaterLevelNotification(level:String){
@@ -23,7 +22,7 @@ class NotificationSet(context:Context) {
             val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             val pendingIntent = PendingIntent.getActivity(ctx, 0, intent, flags)
             val manager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notification = NotificationCompat.Builder(ctx, CHANNEL_ID_1)
+            val notification = NotificationCompat.Builder(ctx, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setVibrate(longArrayOf(1000))
                 .setSound(ringtone)
@@ -34,12 +33,12 @@ class NotificationSet(context:Context) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 val notificationChannel = NotificationChannel(
-                    CHANNEL_ID_1,"water_level_notification",
+                    CHANNEL_ID,"water_level_notification",
                     NotificationManager.IMPORTANCE_DEFAULT)
                 notificationChannel.enableVibration(true)
                 notificationChannel.vibrationPattern = longArrayOf(1000)
 
-                notification.setChannelId(CHANNEL_ID_1)
+                notification.setChannelId(CHANNEL_ID)
                 manager.createNotificationChannel(notificationChannel)
             }
             notification.setAutoCancel(true)
@@ -55,7 +54,7 @@ class NotificationSet(context:Context) {
             val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             val pendingIntent = PendingIntent.getActivity(ctx, 0, intent, flags)
             val manager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notification = NotificationCompat.Builder(ctx, CHANNEL_ID_2)
+            val notification = NotificationCompat.Builder(ctx, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setVibrate(longArrayOf(1000))
                 .setSound(ringtone)
@@ -65,12 +64,12 @@ class NotificationSet(context:Context) {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                val notificationChannel = NotificationChannel(CHANNEL_ID_2,"detection_notification",
+                val notificationChannel = NotificationChannel(CHANNEL_ID,"detection_notification",
                     NotificationManager.IMPORTANCE_DEFAULT)
                 notificationChannel.enableVibration(true)
                 notificationChannel.vibrationPattern = longArrayOf(1000)
 
-                notification.setChannelId(CHANNEL_ID_2)
+                notification.setChannelId(CHANNEL_ID)
                 manager.createNotificationChannel(notificationChannel)
             }
             notification.setAutoCancel(true)
