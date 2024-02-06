@@ -1,5 +1,6 @@
 package com.example.inkubator.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         lifecycleScope.launch {
-            delay(500)
+            delay(1000)
             startActivity(Intent(this@SplashActivity,MainActivity::class.java))
             finish()
         }
