@@ -39,9 +39,7 @@ class NotificationService:Service() {
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val level = snapshot.child("message").value.toString()
-                if (level != null){
-                    notificationSet.sendWaterLevelNotification(level)
-                }
+                notificationSet.sendWaterLevelNotification(level)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -62,9 +60,7 @@ class NotificationService:Service() {
                 val detection = snapshot.child("object_name").value.toString()
                 val confidence = snapshot.child("confidence").value.toString().toFloat()
 
-            if (detection != null && confidence != null){
-                    notificationSet.sendDetectionNotification(detection,confidence)
-                }
+                notificationSet.sendDetectionNotification(detection,confidence)
             }
 
             override fun onCancelled(error: DatabaseError) {
