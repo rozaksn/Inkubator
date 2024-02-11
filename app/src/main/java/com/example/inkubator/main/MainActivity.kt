@@ -367,7 +367,7 @@ class MainActivity : AppCompatActivity() {
 
 
         private fun dht() {
-            val ref = database.getReference("TEST")
+            val ref = database.getReference("DHT")
 
             ref.addValueEventListener(object : ValueEventListener {
 
@@ -393,11 +393,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun waterLevel() {
-            val ref = database.getReference("TEST/message")
+            val ref = database.getReference("WATER_LEVEL")
             ref.addValueEventListener(object : ValueEventListener {
+                @SuppressLint("SetTextI18n")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //Baca data dari database
-                    val level = snapshot.value.toString()
+                    val level = snapshot.child("water_level").value.toString().toInt()
 
                     //Menampilkan data pada textview
                     binding.tvTinggiAir.text = "$level cm"
