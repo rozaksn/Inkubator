@@ -35,10 +35,10 @@ class NotificationService:Service() {
         notificationSet = NotificationSet(this)
 
         // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
-        val reference = database.getReference("TEST")
+        val reference = database.getReference("WATER_LEVEL")
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val level = snapshot.child("message").value.toString()
+                val level = snapshot.child("water_level").value.toString()
                 notificationSet.sendWaterLevelNotification(level)
             }
 
