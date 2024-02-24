@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -33,12 +35,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
 
     var buttonActive = false
-
-    var buttonActiveFemaleGecko: Boolean = false
-    var buttonActiveMaleBallPython: Boolean = false
-    var buttonActiveFemaleBallPython: Boolean = false
-    var buttonActiveMaleBeardedDragon: Boolean = false
-    var buttonActiveFemaleBeardedDragon: Boolean = false
+    var buttonActiveFemaleGecko = false
+    var buttonActiveMaleBallPython = false
+    var buttonActiveFemaleBallPython = false
+    var buttonActiveMaleBeardedDragon = false
+    var buttonActiveFemaleBeardedDragon = false
+    var buttonActiveReset =false
 
 
 
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         // Inisisalisasi notificationSet
         notifikationSet = NotificationSet(this)
 
+        // Menjalankan service dari notifiaksi
         startService(Intent(this, NotificationService::class.java))
 
         checkNotificationPermission()
@@ -58,15 +61,14 @@ class MainActivity : AppCompatActivity() {
         firebaseConnection()
         dht()
         waterLevel()
+
         maleGecko()
         femaleGecko()
         maleBallPython()
         femaleBallPython()
         maleBeardedDragon()
         femaleBeardedDragon()
-
-
-
+        reset()
     }
 
     private fun checkNotificationPermission() {
@@ -86,14 +88,11 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = com.google.firebase.ktx.Firebase.analytics
 
-        // Check if Firebase is initialized
-        if (FirebaseApp.getInstance() != null) {
-            // Menampilkan pesan pada toast ketika firebase berhasil terhubung
-            Toast.makeText(this, "Firebase connected", Toast.LENGTH_SHORT).show()
+        // Menampilkan pesan pada toast ketika firebase berhasil terhubung
+        Toast.makeText(this, "Firebase connected", Toast.LENGTH_SHORT).show()
 
-            // Menampilkan pesan pada logcat
-            firebaseAnalytics.logEvent("firebaseConnected", null)
-        }
+        // Menampilkan pesan pada logcat
+        firebaseAnalytics.logEvent("firebaseConnected", null)
     }
 
     private fun maleGecko() {
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
                 if (value == "1") {
                     binding.btMaleGecko.setBackgroundColor(Color.GREEN)
                     buttonActive = true
@@ -119,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
+                    binding.btReset.isEnabled = false
                 } else {
                     binding.btMaleGecko.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActive = false
@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = true
                     binding.btMaleBeardedDragon.isEnabled = true
                     binding.btFemaleBeardedDragon.isEnabled = true
+                    binding.btReset.isEnabled = true
                 }
                 Log.d(TAG, "mGecko: $value")
             }
@@ -157,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
                 if (value == "1"){
                     binding.btFemaleGecko.setBackgroundColor(Color.GREEN)
                     buttonActiveFemaleGecko = true
@@ -167,6 +168,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
+                    binding.btReset.isEnabled = false
                 }else{
                     binding.btFemaleGecko.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveFemaleGecko = false
@@ -176,6 +178,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = true
                     binding.btMaleBeardedDragon.isEnabled = true
                     binding.btFemaleBeardedDragon.isEnabled = true
+                    binding.btReset.isEnabled = true
                 }
                 Log.d(TAG, "fGecko: $value")
             }
@@ -201,7 +204,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
                 if (value == "1"){
                     binding.btMaleBallPython.setBackgroundColor(Color.GREEN)
                     buttonActiveMaleBallPython = true
@@ -211,6 +214,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
+                    binding.btReset.isEnabled = false
                 }else{
                     binding.btMaleBallPython.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveMaleBallPython = false
@@ -220,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBallPython.isEnabled = true
                     binding.btMaleBeardedDragon.isEnabled = true
                     binding.btFemaleBeardedDragon.isEnabled = true
+                    binding.btReset.isEnabled = true
                 }
                 Log.d(TAG, "mPython: $value")
             }
@@ -245,7 +250,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
                 if (value == "1"){
                     binding.btFemaleBallPython.setBackgroundColor(Color.GREEN)
                     buttonActiveFemaleBallPython = true
@@ -255,6 +260,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
+                    binding.btReset.isEnabled = false
                 }
                 else{
                     binding.btFemaleBallPython.setBackgroundColor(resources.getColor(R.color.red))
@@ -265,6 +271,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBallPython.isEnabled = true
                     binding.btMaleBeardedDragon.isEnabled = true
                     binding.btFemaleBeardedDragon.isEnabled = true
+                    binding.btReset.isEnabled = true
                 }
                 Log.d(TAG, "fPython: $value")
             }
@@ -290,7 +297,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
                 if (value == "1"){
                     binding.btMaleBeardedDragon.setBackgroundColor(Color.GREEN)
                     buttonActiveMaleBeardedDragon = true
@@ -300,6 +307,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBallPython.isEnabled = false
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btFemaleBeardedDragon.isEnabled = false
+                    binding.btReset.isEnabled = false
                 }else{
                     binding.btMaleBeardedDragon.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveMaleBeardedDragon = false
@@ -309,6 +317,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBallPython.isEnabled = true
                     binding.btFemaleBallPython.isEnabled = true
                     binding.btFemaleBeardedDragon.isEnabled = true
+                    binding.btReset.isEnabled = true
                 }
                 Log.d(TAG, "mDragon: $value")
             }
@@ -334,7 +343,7 @@ class MainActivity : AppCompatActivity() {
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 //mengambil nilai dari snapshot Firebase dan mengubahnya menjadi string, dengan nilai default "0" jika terjadi kesalahan
-                val value = snapshot.value as? String ?: "0"
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
                 if (value == "1"){
                     binding.btFemaleBeardedDragon.setBackgroundColor(Color.GREEN)
                     buttonActiveFemaleBeardedDragon = true
@@ -344,6 +353,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBallPython.isEnabled = false
                     binding.btFemaleBallPython.isEnabled = false
                     binding.btMaleBeardedDragon.isEnabled = false
+                    binding.btReset.isEnabled = false
                 }else{
                    binding.btFemaleBeardedDragon.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveFemaleBeardedDragon = false
@@ -353,6 +363,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBallPython.isEnabled = true
                     binding.btFemaleBallPython.isEnabled = true
                     binding.btMaleBeardedDragon.isEnabled = true
+                    binding.btReset.isEnabled = true
                 }
                 Log.d(TAG, "fDragon: $value")
             }
@@ -365,13 +376,76 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun reset(){
+        val buttonRef= database.getReference("REPTIL/reset")
+        binding.btReset.setOnClickListener {
+            if (!buttonActiveReset){
+                buttonRef.setValue("1")
+                buttonActiveReset = true
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    buttonRef.setValue("0")
+                    buttonActiveReset = false
+                },5000)
+            }
+        }
+
+        buttonRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //mengambil nilai dari snapshot Firebase dan mengubahnya menjadi string, dengan nilai default "0" jika terjadi kesalahan
+                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                if (value == "1"){
+                    binding.btReset.setBackgroundColor(Color.GREEN)
+                    buttonActiveReset = true
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        buttonRef.setValue("0")
+                        buttonActiveReset = false
+                    },5000)
+
+
+                    binding.btMaleGecko.isEnabled = false
+                    binding.btFemaleGecko.isEnabled = false
+                    binding.btMaleBallPython.isEnabled = false
+                    binding.btFemaleBallPython.isEnabled = false
+                    binding.btMaleBeardedDragon.isEnabled = false
+                    binding.btFemaleBeardedDragon.isEnabled = false
+
+
+                }else{
+                    binding.btReset.setBackgroundColor(resources.getColor(R.color.red))
+                    buttonActiveReset = false
+
+
+                    binding.btMaleGecko.isEnabled = true
+                    binding.btFemaleGecko.isEnabled = true
+                    binding.btMaleBallPython.isEnabled = true
+                    binding.btFemaleBallPython.isEnabled = true
+                    binding.btMaleBeardedDragon.isEnabled = true
+                    binding.btFemaleBeardedDragon.isEnabled = true
+
+
+                }
+                Log.d(TAG,"reset: $value")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Log.w(TAG, "loadPost:onCancelled",error.toException())
+            }
+
+        })
+
+
+    }
+
 
         private fun dht() {
             val ref = database.getReference("DHT")
 
             ref.addValueEventListener(object : ValueEventListener {
 
-                @SuppressLint("SetTextI18n")
+                @SuppressLint("SetTextI18n") // Digunakan agar tidak ada peringatan karena string ditulis secara hardcode
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val suhu = snapshot.child("suhu").value.toString().toFloat()
                     val kelembaban = snapshot.child("kelembaban").value.toString().toFloat()
@@ -429,7 +503,7 @@ class MainActivity : AppCompatActivity() {
             grantResults: IntArray
         ) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            if (requestCode == 0) {
+            if (requestCode == 0) { // Mengecek apakah kode permintyaan sama dengan 0
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, R.string.notification_granted, Toast.LENGTH_SHORT).show()
                 } else {
