@@ -3,13 +3,18 @@ package com.example.inkubator.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -57,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         startService(Intent(this, NotificationService::class.java))
 
         checkNotificationPermission()
+        checkBatteryOptimizationPermission()
 
         firebaseConnection()
         dht()
@@ -83,6 +89,32 @@ class MainActivity : AppCompatActivity() {
             requestPermission()
         }
     }
+
+    private fun checkBatteryOptimizationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Mengecek versi android
+            val packageName = packageName // Dapatkan nama paket aplikasi saat ini.
+            val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager // Dapatkan layanan PowerManager.
+
+            // Periksa apakah aplikasi saat ini mengabaikan optimasi baterai.
+            if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+                requestBatteryOptimization() // Meminta ijin pengecualian optimasi baterai
+            }
+        }
+    }
+
+    private fun requestBatteryOptimization() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Buat Intent untuk membuka halaman pengaturan optimasi baterai.
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+
+            // Tetapkan URI data untuk menyertakan nama paket aplikasi.
+            //untuk memeuat sumber daya dari string yang mencakup paket nama aplikasi (packageName).
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
+        }
+    }
+
 
     private fun firebaseConnection() {
         FirebaseApp.initializeApp(this)
@@ -382,11 +414,9 @@ class MainActivity : AppCompatActivity() {
             if (!buttonActiveReset){
                 buttonRef.setValue("1")
                 buttonActiveReset = true
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                    buttonRef.setValue("0")
-                    buttonActiveReset = false
-                },5000)
+            }else{
+                buttonRef.setValue("0")
+                buttonActiveReset = false
             }
         }
 
@@ -398,10 +428,11 @@ class MainActivity : AppCompatActivity() {
                     binding.btReset.setBackgroundColor(Color.GREEN)
                     buttonActiveReset = true
 
+                    // Menunda pengubahan nilai kembali ke "0" selama 5 detik
                     Handler(Looper.getMainLooper()).postDelayed({
                         buttonRef.setValue("0")
                         buttonActiveReset = false
-                    },5000)
+                    },5000) // delay selama 5 detik
 
 
                     binding.btMaleGecko.isEnabled = false
@@ -495,6 +526,9 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0
                 )
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS),1
+            )
         }
 
         override fun onRequestPermissionsResult(
@@ -505,6 +539,13 @@ class MainActivity : AppCompatActivity() {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             if (requestCode == 0) { // Mengecek apakah kode permintyaan sama dengan 0
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, R.string.notification_granted, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, R.string.notification_ungranted, Toast.LENGTH_SHORT).show()
+                }
+            }
+            if (requestCode == 1){
+                if (grantResults.isNotEmpty() && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, R.string.notification_granted, Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, R.string.notification_ungranted, Toast.LENGTH_SHORT).show()
