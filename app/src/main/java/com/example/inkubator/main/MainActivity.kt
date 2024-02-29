@@ -432,7 +432,7 @@ class MainActivity : AppCompatActivity() {
                     Handler(Looper.getMainLooper()).postDelayed({
                         buttonRef.setValue("0")
                         buttonActiveReset = false
-                    },5000) // delay selama 5 detik
+                    },10000) // delay selama 5 detik
 
 
                     binding.btMaleGecko.isEnabled = false
