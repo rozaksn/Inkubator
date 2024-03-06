@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.example.inkubator.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -49,7 +50,7 @@ class NotificationService:Service() {
         })
     }
 
-    private fun detectionNotify(){
+     fun detectionNotify(){
         database = FirebaseDatabase.getInstance()
         notificationSet = NotificationSet(this)
 
@@ -61,6 +62,7 @@ class NotificationService:Service() {
                 val confidence = snapshot.child("confidence").value.toString().toFloat()
 
                 notificationSet.sendDetectionNotification(detection,confidence)
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -70,4 +72,33 @@ class NotificationService:Service() {
         })
 
     }
+
+
+
+
+    /*
+    private fun showPopup(detection: String, confidence: Float) {
+        Handler(Looper.getMainLooper()).post {
+            val builder = android.app.AlertDialog.Builder(this)
+            builder.setTitle("Deteksi Objek")
+            builder.setMessage("Objek: $detection\nConfidence: $confidence")
+
+            // Tombol OK pada pop-up
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog: android.app.AlertDialog = builder.create()
+
+            // Menampilkan pop-up
+            dialog.show()
+        }
+
+
+
+
+
+    }
+
+     */
 }
