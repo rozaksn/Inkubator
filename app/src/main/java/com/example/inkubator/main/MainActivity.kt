@@ -534,6 +534,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun detection(){
+        var isPopupShown = false
         val ref = database.getReference("detection")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -541,7 +542,12 @@ class MainActivity : AppCompatActivity() {
                 val confidenceScore = snapshot.child("confidence").value.toString().toFloat()
 
                 binding.tvDeteksi.text = objectDetection
-                showPopup(objectDetection,confidenceScore)
+                // Menampilkan pop-up hanya jika belum ditampilkan sebelumnya
+                if (!isPopupShown && objectDetection == "person" && confidenceScore > 0.5) {
+                    showPopup(objectDetection, confidenceScore)
+                    isPopupShown = true
+                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -624,5 +630,6 @@ class MainActivity : AppCompatActivity() {
             // Menampilkan pop-up
             dialog.show()
         }
+
     }
 }
