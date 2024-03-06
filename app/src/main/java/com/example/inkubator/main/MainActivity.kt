@@ -2,9 +2,13 @@ package com.example.inkubator.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
@@ -21,6 +25,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.inkubator.R
 import com.example.inkubator.about.AboutActivity
 import com.example.inkubator.databinding.ActivityMainBinding
@@ -49,6 +54,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -61,12 +68,17 @@ class MainActivity : AppCompatActivity() {
         // Menjalankan service dari notifiaksi
         startService(Intent(this, NotificationService::class.java))
 
+
+
+
+
         checkNotificationPermission()
         checkBatteryOptimizationPermission()
 
         firebaseConnection()
         dht()
         waterLevel()
+        detection()
 
         maleGecko()
         femaleGecko()
@@ -521,6 +533,29 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+    private fun detection(){
+        val ref = database.getReference("detection")
+        ref.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val objectDetection = snapshot.child("object_name").value.toString()
+                val confidenceScore = snapshot.child("confidence").value.toString().toFloat()
+
+                binding.tvDeteksi.text = objectDetection
+                showPopup(objectDetection,confidenceScore)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(
+                    this@MainActivity,
+                    R.string.error_fetcing.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.w(TAG, R.string.load_post_onCancelled.toString(), error.toException())
+            }
+
+        })
+    }
+
         //Meminta ijin notifikasi
         private fun requestPermission() {
                 ActivityCompat.requestPermissions(
@@ -572,4 +607,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private fun showPopup(detection:String, confidence:Float) {
+        if (detection == "person" && confidence > 0.5){
+            val builder = AlertDialog.Builder(this, androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert)
+            builder.setTitle(R.string.object_detection)
+            builder.setIcon(R.drawable.logo_polinema_no_bg_png)
+            builder.setMessage("Objek: $detection")
+
+            // Tombol OK pada pop-up
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog: AlertDialog = builder.create()
+
+            // Menampilkan pop-up
+            dialog.show()
+        }
     }
+}
