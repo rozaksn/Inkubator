@@ -26,4 +26,6 @@
     <string name="nim">2041160152</string>
     <string name="logo">Logo</string>
     <string name="reset">Reset</string>
+    <string name="label_deteksi">Hasil Deteksi</string>
+    <string name="object_detection">Deteksi Objek</string>
 </resources>
