@@ -3,12 +3,9 @@ package com.example.inkubator.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.BroadcastReceiver
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
@@ -25,7 +22,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.inkubator.R
 import com.example.inkubator.about.AboutActivity
 import com.example.inkubator.databinding.ActivityMainBinding
@@ -67,10 +63,6 @@ class MainActivity : AppCompatActivity() {
 
         // Menjalankan service dari notifiaksi
         startService(Intent(this, NotificationService::class.java))
-
-
-
-
 
         checkNotificationPermission()
         checkBatteryOptimizationPermission()
@@ -488,13 +480,17 @@ class MainActivity : AppCompatActivity() {
 
             ref.addValueEventListener(object : ValueEventListener {
 
-                @SuppressLint("SetTextI18n") // Digunakan agar tidak ada peringatan karena string ditulis secara hardcode
+                @SuppressLint("SetTextI18n") // Digunakan untuk menghilangkan peringatan karena string ditulis secara hardcode
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val suhu = snapshot.child("suhu").value.toString().toFloat()
                     val kelembaban = snapshot.child("kelembaban").value.toString().toFloat()
 
                     binding.tvSuhu.text = "$suhu \u00b0C"
                     binding.tvKelembaban.text = "$kelembaban %"
+
+                    Log.d(TAG,"Suhu: $suhu°C")
+                    Log.d(TAG, "Kelembaban: $kelembaban%")
+                    Log.d(TAG,"===========================")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -512,13 +508,15 @@ class MainActivity : AppCompatActivity() {
         private fun waterLevel() {
             val ref = database.getReference("WATER_LEVEL")
             ref.addValueEventListener(object : ValueEventListener {
-                @SuppressLint("SetTextI18n")
+
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //Baca data dari database
                     val level = snapshot.child("water_level").value.toString().toInt()
 
                     //Menampilkan data pada textview
                     binding.tvTinggiAir.text = "$level cm"
+
+                    Log.d(TAG,"Water level: $level cm")
                 }
 
                 override fun onCancelled(error: DatabaseError) {

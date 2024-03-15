@@ -1,11 +1,10 @@
 package com.example.inkubator.notification
 
 import android.app.Service
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import com.example.inkubator.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -41,10 +40,11 @@ class NotificationService:Service() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val level = snapshot.child("water_level").value.toString()
                 notificationSet.sendWaterLevelNotification(level)
+                Log.d(TAG,"Water Level Notification")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
             }
 
         })
@@ -63,42 +63,15 @@ class NotificationService:Service() {
 
                 notificationSet.sendDetectionNotification(detection,confidence)
 
+                Log.d(TAG,"Object Detection Notification")
+
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, R.string.load_post_onCancelled.toString(),error.toException())
+                Log.w(TAG, R.string.load_post_onCancelled.toString(),error.toException())
             }
 
         })
 
     }
-
-
-
-
-    /*
-    private fun showPopup(detection: String, confidence: Float) {
-        Handler(Looper.getMainLooper()).post {
-            val builder = android.app.AlertDialog.Builder(this)
-            builder.setTitle("Deteksi Objek")
-            builder.setMessage("Objek: $detection\nConfidence: $confidence")
-
-            // Tombol OK pada pop-up
-            builder.setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
-
-            val dialog: android.app.AlertDialog = builder.create()
-
-            // Menampilkan pop-up
-            dialog.show()
-        }
-
-
-
-
-
-    }
-
-     */
 }

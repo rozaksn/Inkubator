@@ -1,7 +1,6 @@
 package com.example.inkubator.notification
 
-import android.app.Activity
-import android.app.AlertDialog
+
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,8 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
 import com.example.inkubator.main.MainActivity
