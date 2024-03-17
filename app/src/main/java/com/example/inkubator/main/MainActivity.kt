@@ -545,6 +545,7 @@ class MainActivity : AppCompatActivity() {
                     showPopup(objectDetection, confidenceScore)
                     isPopupShown = true
                 }
+                Log.d(TAG,"Objek: $objectDetection")
 
             }
 
