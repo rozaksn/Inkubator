@@ -8,14 +8,6 @@
     <string name="bearded_dragon">Bearded Dragon</string>
     <string name="male">Jantan</string>
     <string name="female">Betina</string>
-    <string name="male_gecko">mGecko</string>
-    <string name="female_gecko">fGecko</string>
-    <string name="male_BP">mPython</string>
-    <string name="female_BP">fPython</string>
-    <string name="male_BD">mDragon</string>
-    <string name="female_BD">fDragon</string>
-    <string name="suhu">suhu</string>
-    <string name="kelembaban">kelembaban</string>
     <string name="error_fetcing">Error Fetching Data</string>
     <string name="load_post_onCancelled">Load Post onCancelled</string>
     <string name="notification_granted">Izin notifikasi diberikan</string>
