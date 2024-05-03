@@ -26,18 +26,19 @@ import com.example.inkubator.R
 import com.example.inkubator.about.AboutActivity
 import com.example.inkubator.databinding.ActivityMainBinding
 import com.example.inkubator.notification.NotificationService
-import com.example.inkubator.notification.NotificationSet
+import com.example.inkubator.notification.NotificationSetup
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.database.*
+
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var notifikationSet: NotificationSet
+    private lateinit var notificationSetup: NotificationSetup
     private lateinit var database: FirebaseDatabase
 
     var buttonActive = false
@@ -48,10 +49,6 @@ class MainActivity : AppCompatActivity() {
     var buttonActiveFemaleBeardedDragon = false
     var buttonActiveReset =false
 
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -59,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
 
         // Inisisalisasi notificationSet
-        notifikationSet = NotificationSet(this)
+        notificationSetup = NotificationSetup(this)
 
         // Menjalankan service dari notifiaksi
         startService(Intent(this, NotificationService::class.java))
@@ -131,6 +128,8 @@ class MainActivity : AppCompatActivity() {
         firebaseAnalytics.logEvent("firebaseConnected", null)
     }
 
+
+
     private fun maleGecko() {
         val buttonRef = database.getReference("REPTIL/mGecko")
         binding.btMaleGecko.setOnClickListener {
@@ -166,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBeardedDragon.isEnabled = true
                     binding.btReset.isEnabled = true
                 }
-                Log.d(TAG, "mGecko: $value")
+                Log.d("mGecko", "mGecko: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -175,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                     R.string.error_fetcing.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.w(TAG, "loadPost:onCancelled", error.toException())
+                Log.w("mGecko", "loadPost:onCancelled", error.toException())
             }
 
         })
@@ -216,12 +215,12 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBeardedDragon.isEnabled = true
                     binding.btReset.isEnabled = true
                 }
-                Log.d(TAG, "fGecko: $value")
+                Log.d("fGecko", "fGecko: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "loadPost:onCancelled",error.toException())
+                Log.w("fGecko", "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -262,12 +261,12 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBeardedDragon.isEnabled = true
                     binding.btReset.isEnabled = true
                 }
-                Log.d(TAG, "mPython: $value")
+                Log.d("mPython", "mPython: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "loadPost:onCancelled",error.toException())
+                Log.w("mPython", "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -314,7 +313,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "loadPost:onCancelled",error.toException())
+                Log.w("fPython", "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -355,12 +354,12 @@ class MainActivity : AppCompatActivity() {
                     binding.btFemaleBeardedDragon.isEnabled = true
                     binding.btReset.isEnabled = true
                 }
-                Log.d(TAG, "mDragon: $value")
+                Log.d("mDragon", "mDragon: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "loadPost:onCancelled",error.toException())
+                Log.w("mDragon", "loadPost:onCancelled",error.toException())
             }
         })
     }
@@ -401,12 +400,12 @@ class MainActivity : AppCompatActivity() {
                     binding.btMaleBeardedDragon.isEnabled = true
                     binding.btReset.isEnabled = true
                 }
-                Log.d(TAG, "fDragon: $value")
+                Log.d("fDragon", "fDragon: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "loadPost:onCancelled",error.toException())
+                Log.w("fDragon", "loadPost:onCancelled",error.toException())
             }
 
         })
@@ -461,7 +460,7 @@ class MainActivity : AppCompatActivity() {
 
 
                 }
-                Log.d(TAG,"reset: $value")
+                Log.d("Reset Button","reset: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -477,6 +476,8 @@ class MainActivity : AppCompatActivity() {
 
         private fun dht() {
             val ref = database.getReference("DHT")
+            var startTime: Long = 0
+            var totalBytesReceived: Long = 0
 
             ref.addValueEventListener(object : ValueEventListener {
 
@@ -488,9 +489,65 @@ class MainActivity : AppCompatActivity() {
                     binding.tvSuhu.text = "$suhu \u00b0C"
                     binding.tvKelembaban.text = "$kelembaban %"
 
-                    Log.d(TAG,"Suhu: $suhu°C")
-                    Log.d(TAG, "Kelembaban: $kelembaban%")
-                    Log.d(TAG,"===========================")
+                    // Hitung throughput
+                    // Update the totalBytesReceived
+                    totalBytesReceived += 2 * Float.SIZE_BYTES // 2 float values: suhu and kelembaban
+
+                    // Calculate throughput if startTime has been set
+                    if (startTime > 0) {
+                        val duration = System.currentTimeMillis() - startTime
+                        val throughput = totalBytesReceived.toDouble() / duration.toDouble()
+                        // Convert the throughput to KB/S
+                        //val throughputInKBs = throughput / 1024.0
+                        // Log or display the throughput
+                        Log.d("Throughput", "Throughput: $throughput Byte/S")
+
+                        // Reset the variables for the next calculation
+                        startTime = 0
+                        totalBytesReceived = 0
+                    } else {
+                        // Set the startTime for the first update
+                        startTime = System.currentTimeMillis()
+                    }
+
+                   /* if (snapshot.exists()) {
+                        val endTime = System.currentTimeMillis()
+                        if (startTime == 0L) {
+                            startTime = endTime
+                        } else {
+                            val durationInMillis = endTime - startTime
+                            val snapshotBytes = snapshot.getValue(Float::class.java)?.toString()?.toByteArray()?.size?.toLong() ?: 0L // Handle null snapshot values
+                            totalBytesReceived += snapshotBytes
+                            val throughputBps = totalBytesReceived / (durationInMillis / 1000.0)
+                            val throughputKBps = throughputBps / 1024.0
+                            Log.d(TAG, "Throughput: $throughputKBps KB/s")
+                        }
+                        startTime = endTime // Reset start time for next measurement
+                        totalBytesReceived = 0  // Reset total bytes for next measurement
+                    }
+
+                    */
+
+                   /* val snapshotBytes = snapshot.toString().toByteArray().size.toLong() // Hitung jumlah byte dari snapshot
+                    totalBytesReceived += snapshotBytes
+
+                    if (startTime == 0L) {
+                        startTime = System.currentTimeMillis()
+                    } else {
+                        val endTime = System.currentTimeMillis()
+                        val durationInMillis = endTime - startTime
+                        totalBytesReceived += snapshot.toString().length.toLong() // Hitung panjang string snapshot sebagai jumlah byte
+                        val throughputBps = totalBytesReceived / (durationInMillis / 1000.0) // Throughput dalam Byte per detik
+                        val throughputKBps = throughputBps / 1024.0 // Konversi ke Kilobyte per detik
+
+                        Log.d(TAG, "Throughput: $throughputKBps KB/s")
+                    }
+
+                    */
+
+                    //Log.d("Suhu","Suhu: $suhu°C")
+                    //Log.d("Kelembaban", "Kelembaban: $kelembaban%")
+                    //Log.d(TAG,"===========================")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -516,7 +573,7 @@ class MainActivity : AppCompatActivity() {
                     //Menampilkan data pada textview
                     binding.tvTinggiAir.text = "$level cm"
 
-                    Log.d(TAG,"Water level: $level cm")
+                    //Log.d("Water Level","Water level: $level cm")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -525,7 +582,7 @@ class MainActivity : AppCompatActivity() {
                         R.string.error_fetcing.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.w(TAG, R.string.load_post_onCancelled.toString(), error.toException())
+                    Log.w("Water Level", R.string.load_post_onCancelled.toString(), error.toException())
                 }
 
             })
@@ -545,7 +602,7 @@ class MainActivity : AppCompatActivity() {
                     showPopup(objectDetection, confidenceScore)
                     isPopupShown = true
                 }
-                Log.d(TAG,"Objek: $objectDetection")
+                Log.d("Deteksi Objek","Objek: $objectDetection")
 
             }
 
@@ -555,7 +612,7 @@ class MainActivity : AppCompatActivity() {
                     R.string.error_fetcing.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.w(TAG, R.string.load_post_onCancelled.toString(), error.toException())
+                Log.w("Deteksi Objek", R.string.load_post_onCancelled.toString(), error.toException())
             }
 
         })
