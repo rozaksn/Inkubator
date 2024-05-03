@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener
 
 class NotificationService:Service() {
     private lateinit var database : FirebaseDatabase
-    private lateinit var notificationSet: NotificationSet
+    private lateinit var notificationSetup: NotificationSetup
 
     override fun onCreate() {
         super.onCreate()
@@ -32,15 +32,15 @@ class NotificationService:Service() {
 
     private fun waterLevelNotify(){
         database = FirebaseDatabase.getInstance()
-        notificationSet = NotificationSet(this)
+        notificationSetup = NotificationSetup(this)
 
         // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
         val reference = database.getReference("WATER_LEVEL")
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val level = snapshot.child("water_level").value.toString()
-                notificationSet.sendWaterLevelNotification(level)
-                Log.d(TAG,"Water Level Notification")
+                notificationSetup.sendWaterLevelNotification(level)
+                //Log.d(TAG,"Water Level Notification")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -52,7 +52,7 @@ class NotificationService:Service() {
 
      fun detectionNotify(){
         database = FirebaseDatabase.getInstance()
-        notificationSet = NotificationSet(this)
+        notificationSetup = NotificationSetup(this)
 
         // Menambahkan ValueEventListener untuk mengetahui perubahan pada node detection
         val reference = database.getReference("detection")
@@ -61,9 +61,9 @@ class NotificationService:Service() {
                 val detection = snapshot.child("object_name").value.toString()
                 val confidence = snapshot.child("confidence").value.toString().toFloat()
 
-                notificationSet.sendDetectionNotification(detection,confidence)
+                notificationSetup.sendDetectionNotification(detection,confidence)
 
-                Log.d(TAG,"Object Detection Notification")
+                //Log.d(TAG,"Object Detection Notification")
 
             }
 
