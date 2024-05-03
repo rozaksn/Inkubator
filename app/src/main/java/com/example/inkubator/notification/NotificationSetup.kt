@@ -13,12 +13,12 @@ import androidx.core.app.NotificationCompat
 import com.example.inkubator.R
 import com.example.inkubator.main.MainActivity
 
-class NotificationSet(context:Context) {
+class NotificationSetup(context:Context) {
     private var CHANNEL_ID = "channel_id"
     private val ctx = context
     val ringtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     fun sendWaterLevelNotification(level: String) {
-        if (level <= "2") {
+        if (level < "2") {
             val intent = Intent(ctx, MainActivity::class.java)
             val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             val pendingIntent = PendingIntent.getActivity(ctx, 0, intent, flags)
@@ -53,7 +53,7 @@ class NotificationSet(context:Context) {
     }
 
     fun sendDetectionNotification(detection: String, confidence: Float) {
-        if (detection == "person" && confidence > 0.5) {
+        if (detection == "Telur Menetas" && confidence > 0.5) {
             val intent = Intent(ctx, MainActivity::class.java)
             val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             val pendingIntent = PendingIntent.getActivity(ctx, 0, intent, flags)
