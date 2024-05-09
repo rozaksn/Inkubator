@@ -598,7 +598,7 @@ class MainActivity : AppCompatActivity() {
 
                 binding.tvDeteksi.text = objectDetection
                 // Menampilkan pop-up hanya jika belum ditampilkan sebelumnya
-                if (!isPopupShown && objectDetection == "Telur menetas" && confidenceScore > 0.5) {
+                if (!isPopupShown && objectDetection == "Telur Menetas" && confidenceScore > 0.5) {
                     showPopup(objectDetection, confidenceScore)
                     isPopupShown = true
                 }
