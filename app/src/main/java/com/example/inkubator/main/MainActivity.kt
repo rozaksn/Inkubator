@@ -598,7 +598,7 @@ class MainActivity : AppCompatActivity() {
 
                 binding.tvDeteksi.text = objectDetection
                 // Menampilkan pop-up hanya jika belum ditampilkan sebelumnya
-                if (!isPopupShown && objectDetection == "person" && confidenceScore > 0.5) {
+                if (!isPopupShown && objectDetection == "Telur menetas" && confidenceScore > 0.5) {
                     showPopup(objectDetection, confidenceScore)
                     isPopupShown = true
                 }
@@ -670,7 +670,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun showPopup(detection:String, confidence:Float) {
-        if (detection == "person" && confidence > 0.5){
+        if (detection == "Telur Menetas" && confidence > 0.5){
             val builder = AlertDialog.Builder(this, androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert)
             builder.setTitle(R.string.object_detection)
             builder.setIcon(R.drawable.logo_polinema_no_bg_png)
