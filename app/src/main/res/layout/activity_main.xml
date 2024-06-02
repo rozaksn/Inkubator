@@ -13,11 +13,11 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cvMonitor"
-            android:layout_width="350dp"
+            android:layout_width="400dp"
             android:layout_height="420dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:backgroundTint="@color/maroon"
             app:cardCornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
                 android:layout_height="match_parent">
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelSuhu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvSuhu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvLabelSuhu"
                     tools:text="0" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelKelembaban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuhu" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvKelembaban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvLabelKelembaban"
                     tools:text="0" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelKetinggianAir"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvKelembaban" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvTinggiAir"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvLabelKetinggianAir"
                     tools:text="0" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelDeteksi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,12 +130,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTinggiAir" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvDeteksi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="25sp"
@@ -148,11 +148,11 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cvControl"
-            android:layout_width="350dp"
+            android:layout_width="400dp"
             android:layout_height="330dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/beige"
             app:cardCornerRadius="20dp"
@@ -165,7 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelGecko"
                     android:layout_width="110dp"
                     android:layout_height="67dp"
@@ -185,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="@string/female"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLabelBallPython"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -196,6 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="@string/female"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLabelBeardedDragon"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -208,6 +210,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="15dp"
                     android:text="@string/male"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLabelBallPython"
                     app:layout_constraintEnd_toStartOf="@+id/btFemaleBallPython"
@@ -215,7 +218,7 @@
                     app:layout_constraintStart_toEndOf="@+id/tvLabelBallPython"
                     app:layout_constraintTop_toTopOf="@+id/tvLabelBallPython" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelBeardedDragon"
                     android:layout_width="110dp"
                     android:layout_height="73dp"
@@ -234,12 +237,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:text="@string/reset"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/btFemaleBeardedDragon"
                     app:layout_constraintStart_toStartOf="@+id/btMaleBeardedDragon" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLabelBallPython"
                     android:layout_width="110dp"
                     android:layout_height="68dp"
@@ -259,6 +263,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="10dp"
                     android:text="@string/male"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLabelBeardedDragon"
                     app:layout_constraintEnd_toStartOf="@+id/btFemaleBeardedDragon"
@@ -272,6 +277,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="@string/female"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLabelGecko"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -284,6 +290,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="15dp"
                     android:text="@string/male"
+                    android:textColor="@color/ivory"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLabelGecko"
                     app:layout_constraintEnd_toStartOf="@+id/btFemaleGecko"
