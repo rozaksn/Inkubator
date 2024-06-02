@@ -4,30 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".splash.SplashActivity">
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/inferno_reptile_logo_hd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39"
-        android:src="@drawable/logo_polinema_no_bg_png"
-        android:contentDescription="@string/logo" />
+        app:layout_constraintVertical_bias="0.39" />
 
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
         android:layout_marginTop="16dp"
         android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/maroon"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

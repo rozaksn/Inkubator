@@ -1,248 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".main.MainActivity">
 
-        <TextView
-            android:id="@+id/tvLabelSuhu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/temperature"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvSuhu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelSuhu"
-            tools:text="0" />
-
-        <TextView
-            android:id="@+id/tvLabelKelembaban"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvMonitor"
+            android:layout_width="350dp"
+            android:layout_height="420dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/humidity"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/maroon"
+            app:cardCornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSuhu" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvKelembaban"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelKelembaban"
-            tools:text="0" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvLabelKetinggianAir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+                <TextView
+                    android:id="@+id/tvLabelSuhu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/temperature"
+                    android:textAlignment="center"
+                    android:textColor="@color/ivory"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSuhu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLabelSuhu"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tvLabelKelembaban"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/humidity"
+                    android:textAlignment="center"
+                    android:textColor="@color/ivory"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuhu" />
+
+                <TextView
+                    android:id="@+id/tvKelembaban"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLabelKelembaban"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tvLabelKetinggianAir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/water_level"
+                    android:textAlignment="center"
+                    android:textColor="@color/ivory"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvKelembaban" />
+
+                <TextView
+                    android:id="@+id/tvTinggiAir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLabelKetinggianAir"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tvLabelDeteksi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/label_deteksi"
+                    android:textAlignment="center"
+                    android:textColor="@color/ivory"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTinggiAir" />
+
+                <TextView
+                    android:id="@+id/tvDeteksi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLabelDeteksi"
+                    tools:text="Deteksi" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvControl"
+            android:layout_width="350dp"
+            android:layout_height="330dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/water_level"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvKelembaban" />
-
-        <TextView
-            android:id="@+id/tvTinggiAir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelKetinggianAir"
-            tools:text="0" />
-
-        <TextView
-            android:id="@+id/tvLabelGecko"
-            android:layout_width="110dp"
-            android:layout_height="67dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/gecko"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeteksi" />
-
-        <TextView
-            android:id="@+id/tvLabelDeteksi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/label_deteksi"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTinggiAir" />
-
-        <TextView
-            android:id="@+id/tvDeteksi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelDeteksi"
-            tools:text="Deteksi" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btFemaleBallPython"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/female"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvLabelBallPython"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvLabelBallPython" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btFemaleBeardedDragon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/female"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvLabelBeardedDragon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvLabelBeardedDragon" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btMaleBallPython"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="15dp"
-            android:text="@string/male"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvLabelBallPython"
-            app:layout_constraintEnd_toStartOf="@+id/btFemaleBallPython"
-            app:layout_constraintHorizontal_bias="0.437"
-            app:layout_constraintStart_toEndOf="@+id/tvLabelBallPython"
-            app:layout_constraintTop_toTopOf="@+id/tvLabelBallPython" />
-
-        <TextView
-            android:id="@+id/tvLabelBeardedDragon"
-            android:layout_width="110dp"
-            android:layout_height="73dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/bearded_dragon"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelBallPython" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btReset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/reset"
-            app:cornerRadius="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/beige"
+            app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btMaleBeardedDragon"
-            app:layout_constraintStart_toStartOf="@+id/btMaleBeardedDragon"
-            app:layout_constraintTop_toBottomOf="@+id/btMaleBeardedDragon" />
-
-        <TextView
-            android:id="@+id/tvLabelBallPython"
-            android:layout_width="110dp"
-            android:layout_height="68dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/ball_python"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelGecko" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btMaleBeardedDragon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/male"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvLabelBeardedDragon"
-            app:layout_constraintEnd_toStartOf="@+id/btFemaleBeardedDragon"
-            app:layout_constraintHorizontal_bias="0.361"
-            app:layout_constraintStart_toEndOf="@+id/tvLabelBeardedDragon"
-            app:layout_constraintTop_toTopOf="@+id/tvLabelBeardedDragon" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btFemaleGecko"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/female"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvLabelGecko"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvLabelGecko" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvMonitor">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btMaleGecko"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="15dp"
-            android:text="@string/male"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvLabelGecko"
-            app:layout_constraintEnd_toStartOf="@+id/btFemaleGecko"
-            app:layout_constraintHorizontal_bias="0.414"
-            app:layout_constraintStart_toEndOf="@+id/tvLabelGecko"
-            app:layout_constraintTop_toTopOf="@+id/tvLabelGecko" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvLabelGecko"
+                    android:layout_width="110dp"
+                    android:layout_height="67dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/gecko"
+                    android:textColor="@color/maroon"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btFemaleBallPython"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/female"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLabelBallPython"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvLabelBallPython" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btFemaleBeardedDragon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/female"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLabelBeardedDragon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvLabelBeardedDragon" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btMaleBallPython"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/male"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLabelBallPython"
+                    app:layout_constraintEnd_toStartOf="@+id/btFemaleBallPython"
+                    app:layout_constraintHorizontal_bias="0.437"
+                    app:layout_constraintStart_toEndOf="@+id/tvLabelBallPython"
+                    app:layout_constraintTop_toTopOf="@+id/tvLabelBallPython" />
+
+                <TextView
+                    android:id="@+id/tvLabelBeardedDragon"
+                    android:layout_width="110dp"
+                    android:layout_height="73dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/bearded_dragon"
+                    android:textColor="@color/maroon"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLabelBallPython" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/reset"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/btFemaleBeardedDragon"
+                    app:layout_constraintStart_toStartOf="@+id/btMaleBeardedDragon" />
+
+                <TextView
+                    android:id="@+id/tvLabelBallPython"
+                    android:layout_width="110dp"
+                    android:layout_height="68dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/ball_python"
+                    android:textColor="@color/maroon"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLabelGecko" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btMaleBeardedDragon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/male"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLabelBeardedDragon"
+                    app:layout_constraintEnd_toStartOf="@+id/btFemaleBeardedDragon"
+                    app:layout_constraintHorizontal_bias="0.361"
+                    app:layout_constraintStart_toEndOf="@+id/tvLabelBeardedDragon"
+                    app:layout_constraintTop_toTopOf="@+id/tvLabelBeardedDragon" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btFemaleGecko"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/female"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLabelGecko"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvLabelGecko" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btMaleGecko"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/male"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLabelGecko"
+                    app:layout_constraintEnd_toStartOf="@+id/btFemaleGecko"
+                    app:layout_constraintHorizontal_bias="0.414"
+                    app:layout_constraintStart_toEndOf="@+id/tvLabelGecko"
+                    app:layout_constraintTop_toTopOf="@+id/tvLabelGecko" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -17,29 +17,22 @@ import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.inkubator.R
-import com.example.inkubator.about.AboutActivity
 import com.example.inkubator.databinding.ActivityMainBinding
 import com.example.inkubator.notification.NotificationService
-import com.example.inkubator.notification.NotificationSetup
-import com.google.firebase.FirebaseApp
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.database.*
+import androidx.appcompat.*
 
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var notificationSetup: NotificationSetup
-    private lateinit var database: FirebaseDatabase
+    private val database:FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
+
 
     var buttonActive = false
     var buttonActiveFemaleGecko = false
@@ -52,11 +45,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        // Inisialisasi database
-        database = FirebaseDatabase.getInstance()
-
-        // Inisisalisasi notificationSet
-        notificationSetup = NotificationSetup(this)
+        supportActionBar?.hide()
 
         // Menjalankan service dari notifiaksi
         startService(Intent(this, NotificationService::class.java))
@@ -64,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         checkNotificationPermission()
         checkBatteryOptimizationPermission()
 
-        firebaseConnection()
         dht()
         waterLevel()
         detection()
@@ -117,16 +105,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun firebaseConnection() {
-        FirebaseApp.initializeApp(this)
-        firebaseAnalytics = com.google.firebase.ktx.Firebase.analytics
-
-        // Menampilkan pesan pada toast ketika firebase berhasil terhubung
-        Toast.makeText(this, "Firebase connected", Toast.LENGTH_SHORT).show()
-
-        // Menampilkan pesan pada logcat
-        firebaseAnalytics.logEvent("firebaseConnected", null)
-    }
 
 
 
@@ -476,9 +454,6 @@ class MainActivity : AppCompatActivity() {
 
         private fun dht() {
             val ref = database.getReference("DHT")
-            var startTime: Long = 0
-            var totalBytesReceived: Long = 0
-
             ref.addValueEventListener(object : ValueEventListener {
 
                 @SuppressLint("SetTextI18n") // Digunakan untuk menghilangkan peringatan karena string ditulis secara hardcode
@@ -486,68 +461,12 @@ class MainActivity : AppCompatActivity() {
                     val suhu = snapshot.child("suhu").value.toString().toFloat()
                     val kelembaban = snapshot.child("kelembaban").value.toString().toFloat()
 
-                    binding.tvSuhu.text = "$suhu \u00b0C"
-                    binding.tvKelembaban.text = "$kelembaban %"
+                    binding.tvSuhu.text = "$suhu\u00b0C"
+                    binding.tvKelembaban.text = "$kelembaban%"
 
-                    // Hitung throughput
-                    // Update the totalBytesReceived
-                    totalBytesReceived += 2 * Float.SIZE_BYTES // 2 float values: suhu and kelembaban
-
-                    // Calculate throughput if startTime has been set
-                    if (startTime > 0) {
-                        val duration = System.currentTimeMillis() - startTime
-                        val throughput = totalBytesReceived.toDouble() / duration.toDouble()
-                        // Convert the throughput to KB/S
-                        //val throughputInKBs = throughput / 1024.0
-                        // Log or display the throughput
-                        Log.d("Throughput", "Throughput: $throughput Byte/S")
-
-                        // Reset the variables for the next calculation
-                        startTime = 0
-                        totalBytesReceived = 0
-                    } else {
-                        // Set the startTime for the first update
-                        startTime = System.currentTimeMillis()
-                    }
-
-                   /* if (snapshot.exists()) {
-                        val endTime = System.currentTimeMillis()
-                        if (startTime == 0L) {
-                            startTime = endTime
-                        } else {
-                            val durationInMillis = endTime - startTime
-                            val snapshotBytes = snapshot.getValue(Float::class.java)?.toString()?.toByteArray()?.size?.toLong() ?: 0L // Handle null snapshot values
-                            totalBytesReceived += snapshotBytes
-                            val throughputBps = totalBytesReceived / (durationInMillis / 1000.0)
-                            val throughputKBps = throughputBps / 1024.0
-                            Log.d(TAG, "Throughput: $throughputKBps KB/s")
-                        }
-                        startTime = endTime // Reset start time for next measurement
-                        totalBytesReceived = 0  // Reset total bytes for next measurement
-                    }
-
-                    */
-
-                   /* val snapshotBytes = snapshot.toString().toByteArray().size.toLong() // Hitung jumlah byte dari snapshot
-                    totalBytesReceived += snapshotBytes
-
-                    if (startTime == 0L) {
-                        startTime = System.currentTimeMillis()
-                    } else {
-                        val endTime = System.currentTimeMillis()
-                        val durationInMillis = endTime - startTime
-                        totalBytesReceived += snapshot.toString().length.toLong() // Hitung panjang string snapshot sebagai jumlah byte
-                        val throughputBps = totalBytesReceived / (durationInMillis / 1000.0) // Throughput dalam Byte per detik
-                        val throughputKBps = throughputBps / 1024.0 // Konversi ke Kilobyte per detik
-
-                        Log.d(TAG, "Throughput: $throughputKBps KB/s")
-                    }
-
-                    */
-
-                    //Log.d("Suhu","Suhu: $suhu°C")
-                    //Log.d("Kelembaban", "Kelembaban: $kelembaban%")
-                    //Log.d(TAG,"===========================")
+                    Log.d("Suhu","Suhu: $suhu°C")
+                    Log.d("Kelembaban", "Kelembaban: $kelembaban%")
+                    Log.d(TAG,"===========================")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -571,9 +490,9 @@ class MainActivity : AppCompatActivity() {
                     val level = snapshot.child("water_level").value.toString().toInt()
 
                     //Menampilkan data pada textview
-                    binding.tvTinggiAir.text = "$level cm"
+                    binding.tvTinggiAir.text = "$level"+ "cm"
 
-                    //Log.d("Water Level","Water level: $level cm")
+                    Log.d("Water Level","Water level: $level cm")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -650,24 +569,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-            menuInflater.inflate(R.menu.main_menu, menu)
-            return super.onCreateOptionsMenu(menu)
-        }
-
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            return when (item.itemId) {
-                R.id.about_action -> {
-                    val intent = Intent(this@MainActivity, AboutActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                    true
-                }
-                else -> {
-                    return super.onOptionsItemSelected(item)
-                }
-            }
-        }
 
     private fun showPopup(detection:String, confidence:Float) {
         if (detection == "Telur Menetas" && confidence > 0.5){
