@@ -1,1 +1,1 @@
-# SKRIPSI
+# Aplikasi Inkubator
