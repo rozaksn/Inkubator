@@ -1,4 +1,5 @@
 # Aplikasi Inkubator
 Tampilan Aplikasi Inkubator
 
-![tampilan aplikasi](https://github.com/rozaksn/Inkubator/assets/100182380/4c782a43-769f-4893-906c-834485b96ff4)
+
+![tampilan aplikasi](https://github.com/rozaksn/Inkubator/assets/100182380/68d53f8e-bb46-47b0-a9b2-b53e4c520d74)
