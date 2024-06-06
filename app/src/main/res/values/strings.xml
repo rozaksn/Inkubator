@@ -8,7 +8,7 @@
     <string name="bearded_dragon">Bearded Dragon</string>
     <string name="male">Jantan</string>
     <string name="female">Betina</string>
-    <string name="error_fetcing">Error Fetching Data</string>
+    <string name="error_fetching">Error Fetching Data</string>
     <string name="load_post_onCancelled">Load Post onCancelled</string>
     <string name="notification_granted">Izin notifikasi diberikan</string>
     <string name="notification_ungranted">Izin notifikasi tidak diberikan</string>

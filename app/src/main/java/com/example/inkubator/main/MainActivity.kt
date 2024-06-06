@@ -31,8 +31,9 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    private val database:FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
-
+    private val database:FirebaseDatabase by lazy {
+        FirebaseDatabase.getInstance()
+    }
 
     var buttonActive = false
     var buttonActiveFemaleGecko = false
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         maleBeardedDragon()
         femaleBeardedDragon()
         reset()
+
     }
 
     private fun checkNotificationPermission() {
@@ -103,10 +105,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-
-
-
 
     private fun maleGecko() {
         val buttonRef = database.getReference("REPTIL/mGecko")
@@ -149,7 +147,7 @@ class MainActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(
                     this@MainActivity,
-                    R.string.error_fetcing.toString(),
+                    R.string.error_fetching.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
                 Log.w("mGecko", "loadPost:onCancelled", error.toException())
@@ -197,7 +195,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
                 Log.w("fGecko", "loadPost:onCancelled",error.toException())
             }
 
@@ -243,7 +241,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
                 Log.w("mPython", "loadPost:onCancelled",error.toException())
             }
 
@@ -290,7 +288,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
                 Log.w("fPython", "loadPost:onCancelled",error.toException())
             }
 
@@ -336,7 +334,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
                 Log.w("mDragon", "loadPost:onCancelled",error.toException())
             }
         })
@@ -382,7 +380,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
                 Log.w("fDragon", "loadPost:onCancelled",error.toException())
             }
 
@@ -409,11 +407,11 @@ class MainActivity : AppCompatActivity() {
                     binding.btReset.setBackgroundColor(Color.GREEN)
                     buttonActiveReset = true
 
-                    // Menunda pengubahan nilai kembali ke "0" selama 5 detik
+                    // Menunda pengubahan nilai kembali ke "0" selama 10 detik
                     Handler(Looper.getMainLooper()).postDelayed({
                         buttonRef.setValue("0")
                         buttonActiveReset = false
-                    },10000) // delay selama 5 detik
+                    },10000) // delay selama 10 detik
 
 
                     binding.btMaleGecko.isEnabled = false
@@ -428,7 +426,6 @@ class MainActivity : AppCompatActivity() {
                     binding.btReset.setBackgroundColor(resources.getColor(R.color.red))
                     buttonActiveReset = false
 
-
                     binding.btMaleGecko.isEnabled = true
                     binding.btFemaleGecko.isEnabled = true
                     binding.btMaleBallPython.isEnabled = true
@@ -442,7 +439,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, R.string.error_fetcing.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
                 Log.w(TAG, "loadPost:onCancelled",error.toException())
             }
 
@@ -450,8 +447,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
         private fun dht() {
             val ref = database.getReference("DHT")
             ref.addValueEventListener(object : ValueEventListener {
@@ -472,7 +467,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(
                         this@MainActivity,
-                        R.string.error_fetcing.toString(),
+                        R.string.error_fetching.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                     Log.w(TAG, "Failed to read value.", error.toException())
@@ -498,7 +493,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(
                         this@MainActivity,
-                        R.string.error_fetcing.toString(),
+                        R.string.error_fetching.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                     Log.w("Water Level", R.string.load_post_onCancelled.toString(), error.toException())
@@ -528,7 +523,7 @@ class MainActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(
                     this@MainActivity,
-                    R.string.error_fetcing.toString(),
+                    R.string.error_fetching.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
                 Log.w("Deteksi Objek", R.string.load_post_onCancelled.toString(), error.toException())
