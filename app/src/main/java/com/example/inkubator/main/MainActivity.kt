@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1") {
                     binding.btMaleGecko.setBackgroundColor(Color.GREEN)
                     buttonActive = true
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1"){
                     binding.btFemaleGecko.setBackgroundColor(Color.GREEN)
                     buttonActiveFemaleGecko = true
@@ -215,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1"){
                     binding.btMaleBallPython.setBackgroundColor(Color.GREEN)
                     buttonActiveMaleBallPython = true
@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1"){
                     binding.btFemaleBallPython.setBackgroundColor(Color.GREEN)
                     buttonActiveFemaleBallPython = true
@@ -308,7 +308,7 @@ class MainActivity : AppCompatActivity() {
         }
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1"){
                     binding.btMaleBeardedDragon.setBackgroundColor(Color.GREEN)
                     buttonActiveMaleBeardedDragon = true
@@ -354,7 +354,7 @@ class MainActivity : AppCompatActivity() {
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 //mengambil nilai dari snapshot Firebase dan mengubahnya menjadi string, dengan nilai default "0" jika terjadi kesalahan
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1"){
                     binding.btFemaleBeardedDragon.setBackgroundColor(Color.GREEN)
                     buttonActiveFemaleBeardedDragon = true
@@ -402,7 +402,7 @@ class MainActivity : AppCompatActivity() {
         buttonRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 //mengambil nilai dari snapshot Firebase dan mengubahnya menjadi string, dengan nilai default "0" jika terjadi kesalahan
-                val value = snapshot.value as? String ?: "0"  // Niali default dari value adalah 0
+                val value = snapshot.value as? String ?: "0"  // Nilai default dari value adalah 0
                 if (value == "1"){
                     binding.btReset.setBackgroundColor(Color.GREEN)
                     buttonActiveReset = true
@@ -445,9 +445,8 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-
     }
-        private fun dht() {
+    private fun dht() {
             val ref = database.getReference("DHT")
             ref.addValueEventListener(object : ValueEventListener {
 
@@ -462,6 +461,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("Suhu","Suhu: $suhu°C")
                     Log.d("Kelembaban", "Kelembaban: $kelembaban%")
                     Log.d(TAG,"===========================")
+
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
