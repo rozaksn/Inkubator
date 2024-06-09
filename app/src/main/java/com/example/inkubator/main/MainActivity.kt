@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
 
             // Tetapkan URI data untuk menyertakan nama paket aplikasi.
-            //untuk memeuat sumber daya dari string yang mencakup paket nama aplikasi (packageName).
+            //untuk memuat sumber daya dari string yang mencakup paket nama aplikasi (packageName).
             intent.data = Uri.parse("package:$packageName")
             startActivity(intent)
         }
