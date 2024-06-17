@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                     R.string.error_fetching.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.w("mGecko", "loadPost:onCancelled", error.toException())
+                Log.w("mGecko", getString(R.string.load_post_onCancelled), error.toException())
             }
 
         })
@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
-                Log.w("fGecko", "loadPost:onCancelled",error.toException())
+                Log.w("fGecko", getString(R.string.load_post_onCancelled),error.toException())
             }
 
         })
@@ -242,7 +242,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
-                Log.w("mPython", "loadPost:onCancelled",error.toException())
+                Log.w("mPython", getString(R.string.load_post_onCancelled),error.toException())
             }
 
         })
@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
-                Log.w("fPython", "loadPost:onCancelled",error.toException())
+                Log.w("fPython", getString(R.string.load_post_onCancelled),error.toException())
             }
 
         })
@@ -335,7 +335,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
-                Log.w("mDragon", "loadPost:onCancelled",error.toException())
+                Log.w("mDragon", getString(R.string.load_post_onCancelled),error.toException())
             }
         })
     }
@@ -381,7 +381,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
-                Log.w("fDragon", "loadPost:onCancelled",error.toException())
+                Log.w("fDragon", getString(R.string.load_post_onCancelled),error.toException())
             }
 
         })
@@ -440,7 +440,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@MainActivity, R.string.error_fetching.toString(),Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "loadPost:onCancelled",error.toException())
+                Log.w(TAG, getString(R.string.load_post_onCancelled),error.toException())
             }
 
         })
@@ -471,7 +471,7 @@ class MainActivity : AppCompatActivity() {
                         R.string.error_fetching.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.w(TAG, "Failed to read value.", error.toException())
+                    Log.w(TAG, getString(R.string.error_fetching), error.toException())
                 }
 
             })
@@ -481,6 +481,7 @@ class MainActivity : AppCompatActivity() {
             val ref = database.getReference("WATER_LEVEL")
             ref.addValueEventListener(object : ValueEventListener {
 
+                @SuppressLint("SetTextI18n")// Digunakan untuk menghilangkan peringatan karena string ditulis secara hardcode
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //Baca data dari database
                     val level = snapshot.child("water_level").value.toString().toInt()
@@ -497,7 +498,7 @@ class MainActivity : AppCompatActivity() {
                         R.string.error_fetching.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.w("Water Level", R.string.load_post_onCancelled.toString(), error.toException())
+                    Log.w("Water Level", getString(R.string.load_post_onCancelled), error.toException())
                 }
 
             })
@@ -527,7 +528,7 @@ class MainActivity : AppCompatActivity() {
                     R.string.error_fetching.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.w("Deteksi Objek", R.string.load_post_onCancelled.toString(), error.toException())
+                Log.w("Deteksi Objek", getString(R.string.load_post_onCancelled), error.toException())
             }
 
         })
