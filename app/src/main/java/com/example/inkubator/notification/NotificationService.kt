@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class NotificationService:Service() {
-    private lateinit var database : FirebaseDatabase
+    private val database : FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
     private lateinit var notificationSetup: NotificationSetup
 
     override fun onCreate() {
@@ -31,10 +31,10 @@ class NotificationService:Service() {
     }
 
     private fun waterLevelNotify(){
-        database = FirebaseDatabase.getInstance()
+
         notificationSetup = NotificationSetup(this)
 
-        // Menambahkan ValueEventListener untuk mengetahui prubshsn pada node REPTIL
+        // Menambahkan ValueEventListener untuk mengetahui perubahan pada node REPTIL
         val reference = database.getReference("WATER_LEVEL")
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -51,7 +51,7 @@ class NotificationService:Service() {
     }
 
      fun detectionNotify(){
-        database = FirebaseDatabase.getInstance()
+
         notificationSetup = NotificationSetup(this)
 
         // Menambahkan ValueEventListener untuk mengetahui perubahan pada node detection
