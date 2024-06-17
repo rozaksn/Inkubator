@@ -17,10 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Inkubator"
         tools:targetApi="31">
-        <activity
-            android:name=".about.AboutActivity"
-            android:exported="true"
-            android:parentActivityName=".main.MainActivity"/>
+
         <activity
             android:name=".main.MainActivity"
             android:exported="true" />
